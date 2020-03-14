@@ -4,7 +4,7 @@
     <data>
         <variable
             name="adapter"
-            type="com.example.myapplication.adapter.RecyclerAdapter" />
+            type="com.example.myapplication.modules.home.RecyclerAdapter" />
 
     <variable
         name="model"
