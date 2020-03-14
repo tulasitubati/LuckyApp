@@ -33,7 +33,9 @@ List<Row>rowList;
        binding= DataBindingUtil.inflate(LayoutInflater.from(getContext()), R.layout.fragment_home,container,false);
         rowViewModel= ViewModelProviders.of(this).get(RowViewModel.class);
 
-       return binding.getRoot();
+
+
+        return binding.getRoot();
     }
 
 
@@ -43,16 +45,19 @@ List<Row>rowList;
 
         adapter=new RecyclerAdapter();
         binding.setAdapter(adapter);
-      rowViewModel.getFacts().observe(getActivity(), new Observer<Facts>() {
-          @Override
-          public void onChanged(Facts facts) {
-              rowList=facts.getRows();
-              adapter.addRowList(rowList);
-              adapter.notifyDataSetChanged();
+        rowViewModel.getFacts().observe(getActivity(), new Observer<Facts>() {
+            @Override
+            public void onChanged(Facts facts) {
+                rowList=facts.getRows();
+                adapter.addRowList(rowList);
+                adapter.notifyDataSetChanged();
+                binding.setModel(facts);
 
 
-          }
-      });
+
+            }
+        });
+
 
     }
 }
