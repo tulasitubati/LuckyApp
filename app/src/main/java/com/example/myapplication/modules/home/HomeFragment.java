@@ -20,6 +20,7 @@ import com.example.myapplication.listener.ItemClickListener;
 import com.example.myapplication.model.Facts;
 import com.example.myapplication.model.Row;
 import com.example.myapplication.modules.item.MainActivity;
+import com.example.myapplication.utils.NetworkUtility;
 
 import java.util.List;
 
@@ -35,9 +36,6 @@ List<Row>rowList;
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
        binding= DataBindingUtil.inflate(LayoutInflater.from(getContext()), R.layout.fragment_home,container,false);
         rowViewModel= ViewModelProviders.of(this).get(RowViewModel.class);
-
-
-
         return binding.getRoot();
     }
 
@@ -48,18 +46,19 @@ List<Row>rowList;
 
         adapter=new RecyclerAdapter(this::onClickItem);
         binding.setAdapter(adapter);
-        rowViewModel.getFacts().observe(getActivity(), new Observer<Facts>() {
-            @Override
-            public void onChanged(Facts facts) {
-                rowList=facts.getRows();
-                adapter.addRowList(rowList);
-                adapter.notifyDataSetChanged();
-                binding.setModel(facts);
+        if(NetworkUtility.checkConnection(getContext())) {
+            rowViewModel.getFacts().observe(getActivity(), new Observer<Facts>() {
+                @Override
+                public void onChanged(Facts facts) {
+                    rowList = facts.getRows();
+                    adapter.addRowList(rowList);
+                    adapter.notifyDataSetChanged();
+                    binding.setModel(facts);
 
 
-
-            }
-        });
+                }
+            });
+        }
 
 
     }
